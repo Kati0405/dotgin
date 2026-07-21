@@ -1,40 +1,56 @@
+import Image from 'next/image';
+
 const highlights = [
-  "Власний пшеничний дистилят",
-  "Потрійна дистиляція",
-  "Ручна робота",
-  "Малі партії",
+  { label: 'Власний пшеничний дистилят', image: '/images/hightlights/wheat.png' },
+  { label: 'Потрійна дистиляція', image: '/images/hightlights/our_distillery.png' },
+  { label: 'Натуральні ботанікали', image: '/images/hightlights/natural_ingrigients.png' },
+  { label: 'Без зайвого', image: '/images/hightlights/pure.png' },
 ];
 
 export default function Story() {
   return (
     <section
-      id="about"
-      className="border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm"
+      id='about'
+      className='relative scroll-mt-28 overflow-hidden border border-black/10 bg-[var(--background)] shadow-sm sm:scroll-mt-20'
     >
-      <div className="mx-auto flex h-16 w-16 items-center justify-center border border-black/10 text-2xl">
-        🌾
+      <div className='relative px-6 py-10 text-center'>
+        <h2 className='text-2xl font-semibold tracking-tight'>
+          Від зерна до пляшки
+        </h2>
+        <p className='mx-auto mt-3 max-w-md text-zinc-600'>
+          Для .G ми самі виробляємо пшеничний дистилят і проводимо потрійну
+          дистиляцію. Кожну партію створюємо вручну, невеликими обсягами, щоб
+          контролювати чистоту, аромат і смак на кожному етапі.
+        </p>
       </div>
-      <h2 className="mt-6 text-center text-2xl font-semibold tracking-tight">
-        Від зерна до пляшки
-      </h2>
-      <p className="mx-auto mt-3 max-w-md text-center text-zinc-600">
-        Для .G ми самі виробляємо пшеничний дистилят і проводимо потрійну
-        дистиляцію. Кожну партію створюємо вручну, невеликими обсягами, щоб
-        контролювати чистоту, аромат і смак на кожному етапі.
-      </p>
 
-      <ul className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm">
-        {highlights.map((item, i) => (
-          <li key={item} className="flex items-center gap-3">
-            <span className="border border-black/10 bg-white px-4 py-2">
-              {item}
-            </span>
-            {i < highlights.length - 1 && (
-              <span className="text-zinc-400">·</span>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className='relative border-t border-black/5 px-6 pb-10 pt-8'>
+        <div className='grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4'>
+          {highlights.map((item) => (
+            <div key={item.label} className='flex flex-col items-center gap-3'>
+              <div
+                className='relative aspect-square w-full max-w-[110px]'
+                style={{
+                  maskImage:
+                    'radial-gradient(circle at center, black 55%, transparent 78%)',
+                  WebkitMaskImage:
+                    'radial-gradient(circle at center, black 55%, transparent 78%)',
+                }}
+              >
+                <Image
+                  src={item.image}
+                  alt={item.label}
+                  fill
+                  className='object-contain mix-blend-multiply'
+                />
+              </div>
+              <span className='text-center text-xs text-zinc-600'>
+                {item.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
