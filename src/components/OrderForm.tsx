@@ -4,7 +4,8 @@ import { useState, type FormEvent } from 'react';
 import Image from 'next/image';
 import { orderSchema } from '@/lib/orderSchema';
 
-const PRICE = 466;
+const PRICE = 400;
+const OLD_PRICE = 450;
 
 type FieldErrors = Partial<
   Record<'name' | 'surname' | 'phone' | 'city' | 'branch' | 'comment', string>
@@ -193,8 +194,13 @@ export default function OrderForm() {
         <span className='hidden h-12 w-px bg-black/10 sm:block' />
 
         <div className='text-left'>
-          <p className='font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-[var(--accent)]'>
-            466 <span className='text-xl font-semibold'>грн</span>
+          <p className='flex items-baseline gap-2'>
+            <span className='text-lg font-medium text-zinc-400 line-through'>
+              {OLD_PRICE} грн
+            </span>
+            <span className='font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-[var(--accent)]'>
+              {PRICE} <span className='text-xl font-semibold'>грн</span>
+            </span>
           </p>
           <p className='-mt-1 text-sm text-zinc-500'>за пляшку</p>
         </div>
