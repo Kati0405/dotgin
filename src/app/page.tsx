@@ -5,17 +5,24 @@ import Serve from "@/components/Serve";
 import AboutUs from "@/components/AboutUs";
 import OrderForm from "@/components/OrderForm";
 import Footer from "@/components/Footer";
+import WaveDivider from "@/components/WaveDivider";
 
 export default function Home() {
   return (
     <div id="top" className="flex flex-1 flex-col">
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 px-4 py-8 sm:gap-10 sm:px-6 sm:py-10 lg:gap-12 lg:px-8 lg:py-14">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 sm:px-6 lg:px-8">
         <ProductHero />
+        <WaveDivider fill="var(--background-alt)" />
         <Story />
+        <WaveDivider fill="var(--background)" />
         <TastingProfile />
+        <WaveDivider fill="var(--background-alt)" />
         <Serve />
+        <WaveDivider fill="var(--background)" />
         <AboutUs />
+        <WaveDivider fill="var(--background-alt)" />
         <OrderForm />
+        <WaveDivider fill="var(--accent)" />
       </div>
       <Footer />
     </div>

@@ -28,7 +28,7 @@ export default function AgeGate() {
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-[var(--foreground)]/90 px-6'>
       <div className='w-full max-w-sm border border-black/10 bg-[var(--background)] px-8 py-10 text-center shadow-sm'>
         <span className='text-2xl font-semibold tracking-tight text-[var(--foreground)]'>
-          .G
+          <strong>.G</strong>
         </span>
         <h2 className='mt-6 text-xl font-semibold tracking-tight'>
           Вам виповнилося 18 років?

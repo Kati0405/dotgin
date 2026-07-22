@@ -1,54 +1,53 @@
 const facts = [
   {
-    title: "Зроблено в Україні",
+    title: 'Зроблено в Україні',
     description:
-      "Ми працюємо в Бердичеві та створюємо локальний продукт із власним характером.",
+      'Ми працюємо в Бердичеві та створюємо локальний продукт із власним характером.',
   },
   {
-    title: "Малі партії",
+    title: 'Малі партії',
     description:
-      "Невеликі тиражі дозволяють зберігати контроль якості та увагу до кожної деталі.",
+      'Невеликі тиражі дозволяють зберігати контроль якості та увагу до кожної деталі.',
   },
   {
     title: "Смак, що запам'ятовується",
     description:
-      "Сухий, чистий, збалансований, із хвойними, пряними та цитрусовими нотами.",
+      'Сухий, чистий, збалансований, із хвойними, пряними та цитрусовими нотами.',
   },
   {
-    title: "Для тих, хто розуміє",
-    description:
-      "Це напій для людей, які цінують смак, походження й характер.",
+    title: 'Для тих, хто розуміє',
+    description: 'Це напій для людей, які цінують смак, походження та якість.',
   },
 ];
 
 export default function AboutUs() {
   return (
     <section
-      id="about-us"
-      className="scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:scroll-mt-20 sm:px-10 lg:py-14"
+      id='about-us'
+      className='scroll-mt-28 bg-background px-6 py-10 sm:scroll-mt-20 sm:px-10 lg:py-14'
     >
-      <div className="text-center">
-        <span className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+      <div className='text-center'>
+        <span className='text-xs font-medium uppercase tracking-widest text-zinc-500'>
           Про нас
         </span>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight lg:text-3xl">
-          Створюємо характер у кожній краплі
+        <h2 className='mt-3 text-2xl font-semibold tracking-tight lg:text-3xl'>
+          Створюємо смак із власною історією
         </h2>
       </div>
 
-      <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className='mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4'>
         {facts.map((fact) => (
-          <div key={fact.title} className="text-center sm:text-left">
-            <h3 className="text-base font-semibold tracking-tight">
+          <div key={fact.title} className='text-center sm:text-left'>
+            <h3 className='text-base font-semibold tracking-tight'>
               {fact.title}
             </h3>
-            <p className="mt-2 text-sm text-zinc-600">{fact.description}</p>
+            <p className='mt-2 text-sm text-zinc-600'>{fact.description}</p>
           </div>
         ))}
       </div>
 
-      <p className="mt-10 border-t border-black/5 pt-6 text-center text-sm font-medium tracking-tight text-zinc-700">
-        .G — більше, ніж напій. Це характер.
+      <p className='mt-10 border-t border-black/5 pt-6 text-center text-sm font-medium tracking-tight text-zinc-700'>
+        <strong>.G</strong> — смак, що починається із зерна.
       </p>
     </section>
   );

@@ -11,14 +11,14 @@ export default function Story() {
   return (
     <section
       id='about'
-      className='relative scroll-mt-28 overflow-hidden border border-black/10 bg-[var(--background)] shadow-sm sm:scroll-mt-20'
+      className='relative scroll-mt-28 overflow-hidden bg-[var(--background-alt)] sm:scroll-mt-20'
     >
       <div className='relative px-6 py-10 text-center sm:px-10 lg:py-14'>
         <h2 className='text-2xl font-semibold tracking-tight lg:text-3xl'>
           Від зерна до пляшки
         </h2>
         <p className='mx-auto mt-3 max-w-md text-zinc-600 lg:max-w-2xl lg:text-lg'>
-          Для .G ми самі виробляємо пшеничний дистилят і проводимо потрійну
+          Для <strong>.G</strong> ми самі виробляємо пшеничний дистилят і проводимо потрійну
           дистиляцію. Кожну партію створюємо вручну, невеликими обсягами, щоб
           контролювати чистоту, аромат і смак на кожному етапі.
         </p>

@@ -1,7 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
+
+function boldGin(text: string): ReactNode[] {
+  return text.split(/(\.G)/g).map((part, i) =>
+    part === ".G" ? <strong key={i}>.G</strong> : part
+  );
+}
 
 const cocktails = [
   {
@@ -52,7 +58,7 @@ export default function Serve() {
   return (
     <section
       id="cocktails"
-      className="scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:scroll-mt-20 sm:px-10 lg:py-14"
+      className="scroll-mt-28 bg-[var(--background-alt)] px-6 py-10 sm:scroll-mt-20 sm:px-10 lg:py-14"
     >
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 sm:flex-row sm:items-center">
         <button
@@ -70,9 +76,9 @@ export default function Serve() {
               {cocktail.name}
             </h2>
             <p className="mx-auto mt-3 max-w-sm text-zinc-600 sm:mx-0">
-              {cocktail.description}
+              {boldGin(cocktail.description)}
             </p>
-            <p className="mt-4 text-sm text-zinc-500">{cocktail.ratio}</p>
+            <p className="mt-4 text-sm text-zinc-500">{boldGin(cocktail.ratio)}</p>
           </div>
 
           <div className="relative h-40 w-40 shrink-0 overflow-hidden border border-black/10 bg-white lg:h-48 lg:w-48">

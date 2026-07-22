@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function ProductHero() {
   return (
-    <section className='overflow-hidden border border-black/10 bg-[var(--background)] shadow-sm'>
+    <section className='overflow-hidden bg-[var(--background)]'>
       <div className='relative aspect-[4/5] w-full sm:aspect-[16/9]'>
         <Image
           src='/hero-section.png'

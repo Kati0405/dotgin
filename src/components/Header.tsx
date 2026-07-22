@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "../../public/logo_dotg_cropped.png";
+import logo from "../../public/logo_ukrcraft_only_cropped.png";
 
 const navLinks = [
   { label: "Про джин", href: "#about" },
