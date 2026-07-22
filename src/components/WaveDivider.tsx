@@ -6,8 +6,8 @@ type WaveDividerProps = {
   className?: string;
 };
 
-const TOOTH_WIDTH = 12;
-const TOOTH_DEPTH = 4;
+const TOOTH_WIDTH = 7;
+const TOOTH_DEPTH = 6;
 const BASE_Y = 20;
 const VIEWBOX_WIDTH = 1200;
 
@@ -51,10 +51,10 @@ export default function WaveDivider({
           <filter id='torn-shadow' x='-10%' y='-50%' width='120%' height='220%'>
             <feDropShadow
               dx='0'
-              dy='2'
-              stdDeviation='2'
+              dy='1'
+              stdDeviation='1'
               floodColor='#1c1c1a'
-              floodOpacity='0.18'
+              floodOpacity='0.5'
             />
           </filter>
         </defs>

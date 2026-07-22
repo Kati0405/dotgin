@@ -22,7 +22,6 @@ export default function Home() {
         <AboutUs />
         <WaveDivider fill="var(--background-alt)" />
         <OrderForm />
-        <WaveDivider fill="var(--accent)" />
       </div>
       <Footer />
     </div>
