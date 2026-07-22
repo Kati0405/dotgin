@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const cocktails = [
   {
@@ -8,30 +9,35 @@ const cocktails = [
     description:
       "Лід, сухий тонік, .G і смужка лимонної цедри. Просте поєднання, у якому ялівець і цитрус залишаються на першому плані.",
     ratio: "1 частина .G · 2 частини сухого тоніку",
+    image: "/images/cocktails/gin-tonic.webp",
   },
   {
     name: "Негроні",
     description:
       "Рівні частини .G, червоного вермуту і Campari. Гіркий, міцний, з апельсиновою цедрою.",
     ratio: "1 частина .G · 1 частина вермуту · 1 частина Campari",
+    image: "/images/cocktails/negroni.webp",
   },
   {
     name: "Дайкірі з джином",
     description:
       "Свіжий лаймовий сік, цукровий сироп і .G. Коротке струшування з льодом до легкої піни.",
     ratio: "2 частини .G · 1 частина лайму · 1 частина сиропу",
+    image: "/images/cocktails/daiquiri.webp",
   },
   {
     name: "Френч 75",
     description:
       ".G, лимонний сік і цукровий сироп, до верху шампанським. Легкий і святковий.",
     ratio: "1 частина .G · 0.5 частини лимону · шампанське",
+    image: "/images/cocktails/french75.webp",
   },
   {
     name: "Джин Соур",
     description:
       "Лимонний сік, цукровий сироп, .G і крапля яєчного білка для м'якої текстури.",
     ratio: "2 частини .G · 1 частина лимону · 1 частина сиропу",
+    image: "/images/cocktails/gin-sour.webp",
   },
 ];
 
@@ -69,8 +75,14 @@ export default function Serve() {
             <p className="mt-4 text-sm text-zinc-500">{cocktail.ratio}</p>
           </div>
 
-          <div className="flex h-40 w-32 shrink-0 items-end justify-center border border-black/10 bg-white">
-            <div className="mb-4 h-1 w-16 bg-black/10" />
+          <div className="relative h-40 w-40 shrink-0 overflow-hidden border border-black/10 bg-white">
+            <Image
+              src={cocktail.image}
+              alt={cocktail.name}
+              fill
+              sizes="160px"
+              className="object-cover"
+            />
           </div>
         </div>
 

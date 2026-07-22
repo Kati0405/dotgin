@@ -3,9 +3,9 @@ import { Resend } from "resend";
 import { orderSchema } from "@/lib/orderSchema";
 
 const PRICE = 466;
-const MANAGER_EMAIL = "24site@gmail.com";
+const MANAGER_EMAIL = "ukrcraftbrd@gmail.com";
 // TODO: once a domain is verified in Resend, remove this and always send to MANAGER_EMAIL.
-const TEST_RECIPIENT_EMAIL = "k.kovshykova@gmail.com";
+const TEST_RECIPIENT_EMAIL = "ukrcraftbrd@gmail.com";
 
 export async function POST(request: Request) {
   const body = await request.json();
