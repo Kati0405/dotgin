@@ -162,9 +162,9 @@ export default function OrderForm() {
   return (
     <section
       id='order'
-      className='scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:px-10 sm:scroll-mt-20'
+      className='scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:px-10 sm:scroll-mt-20 lg:py-14'
     >
-      <h2 className='text-center text-2xl font-semibold tracking-tight'>
+      <h2 className='text-center text-2xl font-semibold tracking-tight lg:text-3xl'>
         Замовити
       </h2>
       <p className='mt-1 text-center text-zinc-600'>466 грн · 0,5 л</p>

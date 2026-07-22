@@ -52,9 +52,9 @@ export default function Serve() {
   return (
     <section
       id="cocktails"
-      className="scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:scroll-mt-20"
+      className="scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:scroll-mt-20 sm:px-10 lg:py-14"
     >
-      <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 sm:flex-row sm:items-center">
         <button
           type="button"
           onClick={goPrev}
@@ -66,7 +66,7 @@ export default function Serve() {
 
         <div className="flex flex-1 flex-col items-center gap-8 sm:flex-row">
           <div className="text-center sm:text-left">
-            <h2 className="text-2xl font-semibold tracking-tight">
+            <h2 className="text-2xl font-semibold tracking-tight lg:text-3xl">
               {cocktail.name}
             </h2>
             <p className="mx-auto mt-3 max-w-sm text-zinc-600 sm:mx-0">
@@ -75,12 +75,12 @@ export default function Serve() {
             <p className="mt-4 text-sm text-zinc-500">{cocktail.ratio}</p>
           </div>
 
-          <div className="relative h-40 w-40 shrink-0 overflow-hidden border border-black/10 bg-white">
+          <div className="relative h-40 w-40 shrink-0 overflow-hidden border border-black/10 bg-white lg:h-48 lg:w-48">
             <Image
               src={cocktail.image}
               alt={cocktail.name}
               fill
-              sizes="160px"
+              sizes="(min-width: 1024px) 192px, 160px"
               className="object-cover"
             />
           </div>

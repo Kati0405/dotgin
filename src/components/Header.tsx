@@ -10,7 +10,7 @@ const navLinks = [
 export default function Header() {
   return (
     <header className="sticky top-0 z-10 w-full border-b border-black/[.06] bg-[#fcf8f0]">
-      <div className="mx-auto flex max-w-3xl items-center justify-between gap-6 px-6 py-2">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-2 lg:px-8">
         <a href="#top" aria-label="На головну" className="shrink-0">
           <Image src={logo} alt=".G" className="h-16 w-auto object-contain" priority />
         </a>

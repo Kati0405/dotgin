@@ -25,18 +25,18 @@ export default function AboutUs() {
   return (
     <section
       id="about-us"
-      className="scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:scroll-mt-20"
+      className="scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:scroll-mt-20 sm:px-10 lg:py-14"
     >
       <div className="text-center">
         <span className="text-xs font-medium uppercase tracking-widest text-zinc-500">
           Про нас
         </span>
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight lg:text-3xl">
           Створюємо характер у кожній краплі
         </h2>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+      <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
         {facts.map((fact) => (
           <div key={fact.title} className="text-center sm:text-left">
             <h3 className="text-base font-semibold tracking-tight">
