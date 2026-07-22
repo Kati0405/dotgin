@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Image from 'next/image';
 import { orderSchema } from '@/lib/orderSchema';
 
 const PRICE = 466;
@@ -14,33 +15,29 @@ function Field({
   label,
   error,
   type = 'text',
-  optional = false,
+  placeholder,
 }: {
   name: string;
   label: string;
   error?: string;
   type?: string;
-  optional?: boolean;
+  placeholder?: string;
 }) {
   return (
     <div>
       <label
         htmlFor={name}
-        className='mb-1.5 block text-xs font-medium tracking-wide text-zinc-500 uppercase'
+        className='mb-2 block text-xs font-medium tracking-wide text-zinc-500 uppercase'
       >
         {label}
-        {optional && (
-          <span className='ml-1 normal-case text-zinc-400'>
-            (необов&apos;язково)
-          </span>
-        )}
       </label>
       <input
         id={name}
         name={name}
         type={type}
-        className={`w-full border bg-white px-4 py-3 text-sm text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)] ${
-          error ? 'border-red-400' : 'border-black/10'
+        placeholder={placeholder}
+        className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-[var(--accent)] ${
+          error ? 'border-red-400' : 'border-black/5'
         }`}
       />
       {error && <p className='mt-1.5 text-xs text-red-600'>{error}</p>}
@@ -52,18 +49,20 @@ function TextareaField({
   name,
   label,
   error,
+  placeholder,
   optional = false,
 }: {
   name: string;
   label: string;
   error?: string;
+  placeholder?: string;
   optional?: boolean;
 }) {
   return (
     <div>
       <label
         htmlFor={name}
-        className='mb-1.5 block text-xs font-medium tracking-wide text-zinc-500 uppercase'
+        className='mb-2 block text-xs font-medium tracking-wide text-zinc-500 uppercase'
       >
         {label}
         {optional && (
@@ -76,8 +75,9 @@ function TextareaField({
         id={name}
         name={name}
         rows={4}
-        className={`w-full resize-none border bg-white px-4 py-3 text-sm text-[var(--foreground)] outline-none transition-colors focus:border-[var(--accent)] ${
-          error ? 'border-red-400' : 'border-black/10'
+        placeholder={placeholder}
+        className={`w-full resize-none border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-[var(--accent)] ${
+          error ? 'border-red-400' : 'border-black/5'
         }`}
       />
       {error && <p className='mt-1.5 text-xs text-red-600'>{error}</p>}
@@ -164,78 +164,133 @@ export default function OrderForm() {
       id='order'
       className='scroll-mt-28 bg-[var(--background-alt)] px-6 py-10 sm:px-10 sm:scroll-mt-20 lg:py-14'
     >
-      <h2 className='text-center text-2xl font-semibold tracking-tight lg:text-3xl'>
+      <h2 className='text-center font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight lg:text-4xl'>
         Замовити
       </h2>
-      <p className='mt-1 text-center text-zinc-600'>466 грн · 0,5 л</p>
+
+      <div className='mt-4 flex items-center justify-center'>
+        <span className='h-px w-20 bg-black/15' />
+      </div>
+
+      <div className='mx-auto mt-8 flex max-w-xl flex-wrap items-center justify-center gap-x-8 gap-y-4'>
+        <div className='relative h-28 w-16 shrink-0'>
+          <Image
+            src='/bottle_cutout.png'
+            alt='.G Genebra'
+            fill
+            sizes='64px'
+            className='object-contain object-bottom'
+          />
+        </div>
+
+        <div className='text-left'>
+          <p className='font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight'>
+            .G Genebra
+          </p>
+          <p className='mt-0.5 text-sm text-zinc-500'>0,5 л · 42%</p>
+        </div>
+
+        <span className='hidden h-12 w-px bg-black/10 sm:block' />
+
+        <div className='text-left'>
+          <p className='font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-[var(--accent)]'>
+            466 <span className='text-xl font-semibold'>грн</span>
+          </p>
+          <p className='-mt-1 text-sm text-zinc-500'>за пляшку</p>
+        </div>
+      </div>
+
+      <p className='mt-4 flex items-center justify-center gap-1.5 text-center text-sm text-zinc-500'>
+        <span className='text-[var(--accent)]'>&#10003;</span>
+        Малі партії. Чесний продукт.
+      </p>
 
       <form
         onSubmit={handleSubmit}
         noValidate
-        className='mx-auto mt-8 max-w-xl space-y-5'
+        className='mx-auto mt-10 max-w-xl space-y-6'
       >
-        <div className='grid gap-5 sm:grid-cols-2'>
-          <Field name='name' label="Ім'я" error={fieldErrors.name} />
-          <Field name='surname' label='Прізвище' error={fieldErrors.surname} />
-          <Field name='city' label='Місто' error={fieldErrors.city} />
+        <div className='grid gap-6 sm:grid-cols-2'>
+          <Field
+            name='name'
+            label="Ім'я"
+            placeholder='Введіть ваше ім’я'
+            error={fieldErrors.name}
+          />
+          <Field
+            name='surname'
+            label='Прізвище'
+            placeholder='Введіть ваше прізвище'
+            error={fieldErrors.surname}
+          />
+          <Field
+            name='city'
+            label='Місто'
+            placeholder='Введіть місто'
+            error={fieldErrors.city}
+          />
           <Field
             name='phone'
             label='Телефон'
             type='tel'
+            placeholder='+380 XX XXX XX XX'
             error={fieldErrors.phone}
           />
         </div>
 
-        <div className='grid gap-5 sm:grid-cols-2 sm:items-start'>
+        <div className='grid gap-6 sm:grid-cols-2 sm:items-start'>
           <Field
             name='branch'
             label='Відділення або поштомат Нової пошти'
+            placeholder='Номер відділення або поштомату'
             error={fieldErrors.branch}
           />
 
           <div>
-            <span className='mb-1.5 block text-xs font-medium tracking-wide text-zinc-500 uppercase'>
+            <span className='mb-2 block text-xs font-medium tracking-wide text-zinc-500 uppercase'>
               Кількість пляшок
             </span>
-            <div className='flex items-center border border-black/10 bg-white'>
+            <div className='flex items-center border border-black/5 bg-white shadow-sm'>
               <button
                 type='button'
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 aria-label='Зменшити кількість'
-                className='flex h-12 w-12 shrink-0 items-center justify-center text-lg text-zinc-600 hover:bg-black/5 disabled:opacity-30'
+                className='flex h-14 w-14 shrink-0 items-center justify-center text-xl text-zinc-600 hover:bg-black/5 disabled:opacity-30'
                 disabled={quantity <= 1}
               >
                 −
               </button>
-              <span className='flex-1 text-center text-sm font-medium'>
+              <span className='flex-1 text-center text-base font-medium'>
                 {quantity}
               </span>
               <button
                 type='button'
                 onClick={() => setQuantity((q) => Math.min(6, q + 1))}
                 aria-label='Збільшити кількість'
-                className='flex h-12 w-12 shrink-0 items-center justify-center text-lg text-zinc-600 hover:bg-black/5 disabled:opacity-30'
+                className='flex h-14 w-14 shrink-0 items-center justify-center text-xl text-zinc-600 hover:bg-black/5 disabled:opacity-30'
                 disabled={quantity >= 6}
               >
                 +
               </button>
             </div>
+
+            <p className='mt-3 flex items-center gap-1.5 text-sm text-zinc-600'>
+              <span className='text-[var(--accent)]'>&#128722;</span>
+              Разом:{' '}
+              <span className='font-semibold text-[var(--foreground)]'>
+                {total} грн
+              </span>
+            </p>
           </div>
         </div>
 
         <TextareaField
           name='comment'
           label='Коментар'
+          placeholder='Ваш коментар'
           optional
           error={fieldErrors.comment}
         />
-
-        <div className='flex items-center justify-between border border-black/10 bg-white px-5 py-4'>
-          <span className='text-sm text-zinc-600'>До підтвердження</span>
-          <span className='text-lg font-semibold tracking-tight'>
-            {total} грн
-          </span>
-        </div>
 
         <p className='text-center text-xs text-zinc-500'>
           Доставка Новою поштою по Україні. Після заявки менеджер

@@ -6,10 +6,30 @@ type WaveDividerProps = {
   className?: string;
 };
 
+const TOOTH_WIDTH = 12;
+const TOOTH_DEPTH = 4;
+const BASE_Y = 20;
+const VIEWBOX_WIDTH = 1200;
+
+function buildTeethPath(): string {
+  const points: string[] = [`M0,${BASE_Y}`];
+  let x = 0;
+  let up = true;
+  while (x < VIEWBOX_WIDTH) {
+    x += TOOTH_WIDTH;
+    const y = up ? BASE_Y - TOOTH_DEPTH : BASE_Y + TOOTH_DEPTH;
+    points.push(`L${Math.min(x, VIEWBOX_WIDTH)},${y}`);
+    up = !up;
+  }
+  points.push(`L${VIEWBOX_WIDTH},80 L0,80 Z`);
+  return points.join(' ');
+}
+
+const TEETH_PATH = buildTeethPath();
+
 /**
- * Irregular torn-paper edge. The jagged path (not a clean sine wave) plus a
- * soft drop-shadow filter is what sells the "ripped paper" read rather than
- * a scalloped/wave border.
+ * Regular triangular-tooth torn-paper edge, with a light drop shadow to
+ * suggest the paper lifting slightly off the section below.
  */
 export default function WaveDivider({
   fill = 'var(--background)',
@@ -31,27 +51,14 @@ export default function WaveDivider({
           <filter id='torn-shadow' x='-10%' y='-50%' width='120%' height='220%'>
             <feDropShadow
               dx='0'
-              dy='6'
-              stdDeviation='6'
+              dy='2'
+              stdDeviation='2'
               floodColor='#1c1c1a'
-              floodOpacity='0.45'
+              floodOpacity='0.18'
             />
           </filter>
         </defs>
-        <path
-          filter='url(#torn-shadow)'
-          fill={fill}
-          d='M0,30
-             L22,24 L48,33 L71,20 L95,29 L118,16 L146,27 L169,19
-             L196,31 L221,22 L247,30 L272,17 L299,26 L324,14
-             L350,25 L378,31 L402,21 L429,28 L455,18 L481,30
-             L507,23 L533,32 L560,20 L586,27 L611,16 L638,29
-             L664,22 L690,31 L716,19 L742,26 L768,15 L795,28
-             L820,21 L847,30 L873,24 L899,32 L925,18 L951,27
-             L977,22 L1003,31 L1029,20 L1055,28 L1081,16 L1107,29
-             L1133,23 L1159,31 L1200,25
-             L1200,80 L0,80 Z'
-        />
+        <path filter='url(#torn-shadow)' fill={fill} d={TEETH_PATH} />
       </svg>
     </div>
   );
