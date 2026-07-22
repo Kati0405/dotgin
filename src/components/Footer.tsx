@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer id="about-us" className="scroll-mt-28 bg-[var(--accent)] sm:scroll-mt-20">
+    <footer className="bg-[var(--accent)]">
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 px-6 py-8 text-center text-sm text-zinc-300 sm:flex-row sm:justify-between sm:text-left">
         <div className="text-zinc-100">
           <p>ТОВ «Укркрафт»</p>

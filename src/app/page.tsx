@@ -2,6 +2,7 @@ import ProductHero from "@/components/ProductHero";
 import Story from "@/components/Story";
 import TastingProfile from "@/components/TastingProfile";
 import Serve from "@/components/Serve";
+import AboutUs from "@/components/AboutUs";
 import OrderForm from "@/components/OrderForm";
 import Footer from "@/components/Footer";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <Story />
         <TastingProfile />
         <Serve />
+        <AboutUs />
         <OrderForm />
       </div>
       <Footer />

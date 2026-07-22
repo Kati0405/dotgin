@@ -143,7 +143,7 @@ export default function OrderForm() {
     return (
       <section
         id='order'
-        className='border border-black/10 bg-[var(--background)] px-6 py-16 text-center shadow-sm'
+        className='scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-16 text-center shadow-sm sm:scroll-mt-20'
       >
         <div className='mx-auto flex h-14 w-14 items-center justify-center border border-[var(--accent)] text-2xl text-[var(--accent)]'>
           ✓
@@ -162,7 +162,7 @@ export default function OrderForm() {
   return (
     <section
       id='order'
-      className='border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:px-10'
+      className='scroll-mt-28 border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:px-10 sm:scroll-mt-20'
     >
       <h2 className='text-center text-2xl font-semibold tracking-tight'>
         Замовити
