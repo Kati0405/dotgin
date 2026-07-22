@@ -13,21 +13,20 @@ const ingredients = [
 export default function TastingProfile() {
   return (
     <section className='border border-black/10 bg-[var(--background)] px-6 py-10 shadow-sm sm:px-10 lg:py-14'>
-      <h2 className='text-2xl font-semibold tracking-tight lg:text-3xl'>
+      <h2 className='text-center text-2xl font-semibold tracking-tight lg:text-3xl'>
         Смаковий профіль
       </h2>
-      <p className='mt-3 max-w-2xl text-zinc-600 lg:text-lg'>
+      <p className='mx-auto mt-3 max-w-2xl text-center text-zinc-600 lg:text-lg'>
         .G має чистий, гармонійний смак із вираженими хвойними нотами та свіжим
         цитрусовим післясмаком. Використання виключно власної зернової основи
         забезпечує напою особливу м&apos;якість та глибину.
       </p>
-      <h3 className='text-xl font-semibold tracking-tight pt-4 lg:text-2xl'>
+      <p className='mx-auto mt-3 max-w-2xl text-center text-zinc-600 lg:text-lg'>
+        Використання виключно власної зернової основи забезпечує напою особливу
+        м&apos;якість та глибину.
+      </p>
+      <h3 className='text-center text-xl font-semibold tracking-tight pt-4 lg:text-2xl'>
         Ботанікали
-        <p className='mt-3 max-w-2xl text-zinc-600 lg:text-lg'>
-          Насичений багатим букетом натуральних ботанікалів: ягодами ялівцю,
-          коріандру, цедри лимона, апельсина, ангеліки, анісу, кориці та
-          лакриці.
-        </p>
       </h3>
       <div className='mt-8 grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-7 md:gap-x-6'>
         {ingredients.map((item) => (
