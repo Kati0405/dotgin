@@ -5,7 +5,7 @@ export default function ProductHero() {
     <section className='overflow-hidden bg-[var(--background)]'>
       <div className='relative aspect-[4/5] w-full sm:aspect-[16/9]'>
         <Image
-          src='/hero-section.png'
+          src='/hero_img_flat.png'
           alt='.G Genebra — українська крафтова джиневра'
           fill
           priority
@@ -15,7 +15,7 @@ export default function ProductHero() {
         <div className='absolute inset-0 flex items-start pt-6 sm:items-center sm:pt-0'>
           <div className='max-w-[50%] px-5 text-left sm:max-w-[54%] sm:px-8 md:px-10 lg:px-14'>
             <h1 className='text-lg font-semibold leading-tight tracking-tight sm:text-2xl md:text-3xl lg:text-5xl'>
-              Крапка G - крафтовий джин із волі і сталі
+              Крапка G - крафтовий джин із сталі та волі
             </h1>
             <p className='mt-2 max-w-md text-xs text-zinc-600 sm:mt-4 sm:text-sm md:text-base lg:max-w-lg lg:text-lg'>
               Міцний алкогольний напій створений методом потрійної дистиляції
