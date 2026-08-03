@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="text-zinc-100">
           <p>ТОВ «Укркрафт»</p>
           <p>м. Бердичів</p>
-          <p>+38 063 223 83 32</p>
+          <p>+38 063 731 23 70</p>
         </div>
         <p className="font-medium text-zinc-100">18+</p>
         <div className="space-y-1">
