@@ -8,7 +8,11 @@ export const orderSchema = z.object({
     .trim()
     .regex(/^[+\d][\d\s()-]{6,}$/, "Введіть коректний номер телефону"),
   city: z.string().trim().min(2, "Вкажіть місто"),
-  branch: z.string().trim().min(3, "Вкажіть відділення або поштомат"),
+  branch: z
+    .string()
+    .trim()
+    .min(3, "Поле має містити літери - вкажіть відділення або поштомат")
+    .refine((v) => !/^\d+$/.test(v), "Вкажіть номер відділення разом з назвою міста або адресою"),
   quantity: z.coerce.number().int().min(1).max(6),
   comment: z.string().trim().optional().default(""),
 });

@@ -312,7 +312,7 @@ export default function OrderForm() {
           disabled={submitting}
           className='w-full bg-[var(--accent)] px-6 py-3.5 font-medium tracking-wide text-white transition-opacity hover:opacity-90 disabled:opacity-60'
         >
-          {submitting ? 'Надсилання…' : 'Надіслати заявку'}
+          {submitting ? 'Надсилання…' : 'Замовити'}
         </button>
       </form>
     </section>
