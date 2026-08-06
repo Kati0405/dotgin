@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Manrope, Playfair_Display } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import Header from '@/components/Header';
 import AgeGate from '@/components/AgeGate';
 import './globals.css';
@@ -42,6 +43,7 @@ export default function RootLayout({
         <AgeGate />
         <Header />
         {children}
+        <Analytics />
       </body>
     </html>
   );
