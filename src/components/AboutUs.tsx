@@ -47,7 +47,7 @@ export default function AboutUs() {
       </div>
 
       <p className='mt-10 border-t border-black/5 pt-6 text-center text-sm font-medium tracking-tight text-zinc-700'>
-        <strong>.G</strong> — смак, що починається із зерна.
+        <strong>Джин .G</strong> — смак, що починається із зерна.
       </p>
     </section>
   );

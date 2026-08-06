@@ -177,7 +177,7 @@ export default function OrderForm() {
         <div className='relative h-28 w-16 shrink-0'>
           <Image
             src='/bottle_cutout.png'
-            alt='.G Genebra'
+            alt='Джин .G Genebra'
             fill
             sizes='64px'
             className='object-contain object-bottom'
@@ -186,7 +186,7 @@ export default function OrderForm() {
 
         <div className='text-left'>
           <p className='font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight'>
-            .G Genebra
+            Джин .G Genebra
           </p>
           <p className='mt-0.5 text-sm text-zinc-500'>0,5 л · 42%</p>
         </div>

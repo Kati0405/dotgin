@@ -1,48 +1,61 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, Fragment } from "react";
 import Image from "next/image";
 
-function boldGin(text: string): ReactNode[] {
-  return text.split(/(\.G)/g).map((part, i) =>
-    part === ".G" ? <strong key={i}>.G</strong> : part
-  );
+const GIN_MENTION_RE = /(?:джин[а-яіїєґ']*\s*)?\.G/gi;
+
+function highlightGinMentions(text: string) {
+  const parts = text.split(GIN_MENTION_RE);
+  const matches = text.match(GIN_MENTION_RE) ?? [];
+
+  return parts.reduce<React.ReactNode[]>((nodes, part, i) => {
+    nodes.push(<Fragment key={`t-${i}`}>{part}</Fragment>);
+    if (matches[i]) {
+      nodes.push(
+        <strong key={`m-${i}`} className="font-semibold">
+          {matches[i]}
+        </strong>
+      );
+    }
+    return nodes;
+  }, []);
 }
 
 const cocktails = [
   {
     name: "Джин-тонік",
     description:
-      "Лід, сухий тонік, .G і смужка лимонної цедри. Просте поєднання, у якому ялівець і цитрус залишаються на першому плані.",
-    ratio: "1 частина .G · 2 частини сухого тоніку",
+      "Лід, сухий тонік, джин .G і смужка лимонної цедри. Просте поєднання, у якому ялівець і цитрус залишаються на першому плані.",
+    ratio: "1 частина джину .G · 2 частини сухого тоніку",
     image: "/images/cocktails/gin-tonic.webp",
   },
   {
     name: "Негроні",
     description:
-      "Рівні частини .G, червоного вермуту і Campari. Гіркий, міцний, з апельсиновою цедрою.",
-    ratio: "1 частина .G · 1 частина вермуту · 1 частина Campari",
+      "Рівні частини джину .G, червоного вермуту і Campari. Гіркий, міцний, з апельсиновою цедрою.",
+    ratio: "1 частина джину .G · 1 частина вермуту · 1 частина Campari",
     image: "/images/cocktails/negroni.webp",
   },
   {
     name: "Дайкірі з джином",
     description:
-      "Свіжий лаймовий сік, цукровий сироп і .G. Коротке струшування з льодом до легкої піни.",
-    ratio: "2 частини .G · 1 частина лайму · 1 частина сиропу",
+      "Свіжий лаймовий сік, цукровий сироп і джин .G. Коротке струшування з льодом до легкої піни.",
+    ratio: "2 частини джину .G · 1 частина лайму · 1 частина сиропу",
     image: "/images/cocktails/daiquiri.webp",
   },
   {
     name: "Френч 75",
     description:
-      ".G, лимонний сік і цукровий сироп, до верху шампанським. Легкий і святковий.",
-    ratio: "1 частина .G · 0.5 частини лимону · шампанське",
+      "Джин .G, лимонний сік і цукровий сироп, до верху шампанським. Легкий і святковий.",
+    ratio: "1 частина джину .G · 0.5 частини лимону · шампанське",
     image: "/images/cocktails/french75.webp",
   },
   {
     name: "Джин Соур",
     description:
       "Лимонний сік, цукровий сироп, .G і крапля яєчного білка для м'якої текстури.",
-    ratio: "2 частини .G · 1 частина лимону · 1 частина сиропу",
+    ratio: "2 частини джину .G · 1 частина лимону · 1 частина сиропу",
     image: "/images/cocktails/gin-sour.webp",
   },
 ];
@@ -76,9 +89,11 @@ export default function Serve() {
               {cocktail.name}
             </h2>
             <p className="mx-auto mt-3 max-w-sm text-zinc-600 sm:mx-0">
-              {boldGin(cocktail.description)}
+              {highlightGinMentions(cocktail.description)}
             </p>
-            <p className="mt-4 text-sm text-zinc-500">{boldGin(cocktail.ratio)}</p>
+            <p className="mt-4 text-sm text-zinc-500">
+              {highlightGinMentions(cocktail.ratio)}
+            </p>
           </div>
 
           <div className="relative h-40 w-40 shrink-0 overflow-hidden border border-black/10 bg-white lg:h-48 lg:w-48">

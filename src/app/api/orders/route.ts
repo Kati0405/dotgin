@@ -30,9 +30,9 @@ export async function POST(request: Request) {
   const resend = new Resend(apiKey);
   const testMode = process.env.RESEND_TEST_MODE === "true";
   const { error } = await resend.emails.send({
-    from: process.env.ORDERS_FROM_EMAIL ?? "Замовлення .G <orders@resend.dev>",
+    from: process.env.ORDERS_FROM_EMAIL ?? "Замовлення Джин .G <orders@resend.dev>",
     to: testMode ? TEST_RECIPIENT_EMAIL : MANAGER_EMAIL,
-    subject: `Нове замовлення .G — ${order.name} ${order.surname}`,
+    subject: `Нове замовлення Джин .G — ${order.name} ${order.surname}`,
     text: [
       `Ім'я: ${order.name} ${order.surname}`,
       `Телефон: ${order.phone}`,

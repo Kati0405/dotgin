@@ -15,7 +15,7 @@ const displayFont = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: '.G',
+  title: '.G - український джин з зерна',
   description: 'Ukrainian dry gin',
 };
 
