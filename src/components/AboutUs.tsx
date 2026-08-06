@@ -27,7 +27,7 @@ export default function AboutUs() {
       className='scroll-mt-28 bg-background px-6 py-10 sm:scroll-mt-20 sm:px-10 lg:py-14'
     >
       <div className='text-center'>
-        <span className='text-xs font-medium uppercase tracking-widest text-zinc-500'>
+        <span className='text-xs font-medium uppercase tracking-widest text-zinc-600'>
           Про нас
         </span>
         <h2 className='mt-3 text-2xl font-semibold tracking-tight lg:text-3xl'>

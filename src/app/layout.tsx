@@ -15,8 +15,17 @@ const displayFont = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: '.G - український джин з зерна',
-  description: 'Ukrainian dry gin',
+  metadataBase: new URL('https://www.ukrcraft.com.ua'),
+  title: '.G — craft dry gin',
+  description:
+    '.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
+  openGraph: {
+    title: '.G — craft dry gin',
+    description:
+      '.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
+    locale: 'uk_UA',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang='en'
+      lang='uk'
       className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}
     >
       <body className='min-h-full flex flex-col'>

@@ -54,7 +54,7 @@ const cocktails = [
   {
     name: "Джин Соур",
     description:
-      "Лимонний сік, цукровий сироп, .G і крапля яєчного білка для м'якої текстури.",
+      "Лимонний сік, цукровий сироп, джин.G і крапля яєчного білка для м'якої текстури.",
     ratio: "2 частини джину .G · 1 частина лимону · 1 частина сиропу",
     image: "/images/cocktails/gin-sour.webp",
   },
@@ -91,7 +91,7 @@ export default function Serve() {
             <p className="mx-auto mt-3 max-w-sm text-zinc-600 sm:mx-0">
               {highlightGinMentions(cocktail.description)}
             </p>
-            <p className="mt-4 text-sm text-zinc-500">
+            <p className="mt-4 text-sm text-zinc-600">
               {highlightGinMentions(cocktail.ratio)}
             </p>
           </div>
@@ -136,17 +136,21 @@ export default function Serve() {
         </button>
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-2">
+      <div className="mt-6 flex items-center justify-center">
         {cocktails.map((c, i) => (
           <button
             key={c.name}
             type="button"
             onClick={() => setIndex(i)}
             aria-label={`Перейти до рецепту: ${c.name}`}
-            className={`h-2 w-2 rounded-full transition-colors ${
-              i === index ? "bg-[var(--accent)]" : "bg-black/15"
-            }`}
-          />
+            className="flex h-6 w-6 items-center justify-center"
+          >
+            <span
+              className={`h-2 w-2 rounded-full transition-colors ${
+                i === index ? "bg-[var(--accent)]" : "bg-black/15"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </section>

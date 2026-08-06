@@ -28,7 +28,7 @@ function Field({
     <div>
       <label
         htmlFor={name}
-        className='mb-2 block text-xs font-medium tracking-wide text-zinc-500 uppercase'
+        className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'
       >
         {label}
       </label>
@@ -63,11 +63,11 @@ function TextareaField({
     <div>
       <label
         htmlFor={name}
-        className='mb-2 block text-xs font-medium tracking-wide text-zinc-500 uppercase'
+        className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'
       >
         {label}
         {optional && (
-          <span className='ml-1 normal-case text-zinc-400'>
+          <span className='ml-1 normal-case text-zinc-600'>
             (необов&apos;язково)
           </span>
         )}
@@ -188,25 +188,25 @@ export default function OrderForm() {
           <p className='font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight'>
             Джин .G Genebra
           </p>
-          <p className='mt-0.5 text-sm text-zinc-500'>0,5 л · 42%</p>
+          <p className='mt-0.5 text-sm text-zinc-600'>0,5 л · 42%</p>
         </div>
 
         <span className='hidden h-12 w-px bg-black/10 sm:block' />
 
         <div className='text-left'>
           <p className='flex items-baseline gap-2'>
-            <span className='text-lg font-medium text-zinc-400 line-through'>
+            <span className='text-lg font-medium text-zinc-600 line-through'>
               {OLD_PRICE} грн
             </span>
             <span className='font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-[var(--accent)]'>
               {PRICE} <span className='text-xl font-semibold'>грн</span>
             </span>
           </p>
-          <p className='-mt-1 text-sm text-zinc-500'>за пляшку</p>
+          <p className='-mt-1 text-sm text-zinc-600'>за пляшку</p>
         </div>
       </div>
 
-      <p className='mt-4 flex items-center justify-center gap-1.5 text-center text-sm text-zinc-500'>
+      <p className='mt-4 flex items-center justify-center gap-1.5 text-center text-sm text-zinc-600'>
         <span className='text-[var(--accent)]'>&#10003;</span>
         Малі партії. Чесний продукт.
       </p>
@@ -253,7 +253,7 @@ export default function OrderForm() {
           />
 
           <div>
-            <span className='mb-2 block text-xs font-medium tracking-wide text-zinc-500 uppercase'>
+            <span className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'>
               Кількість пляшок
             </span>
             <div className='flex items-center border border-black/5 bg-white shadow-sm'>
@@ -298,7 +298,7 @@ export default function OrderForm() {
           error={fieldErrors.comment}
         />
 
-        <p className='text-center text-xs text-zinc-500'>
+        <p className='text-center text-xs text-zinc-600'>
           Доставка Новою поштою по Україні. Після заявки менеджер
           зв&apos;яжеться для підтвердження замовлення та оплати.
         </p>
