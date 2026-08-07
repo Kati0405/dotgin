@@ -24,9 +24,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: '.G — craft dry gin',
     description:
-      '.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
+      'Зерно • Ялівець • Коріандр\n.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
     locale: 'uk_UA',
     type: 'website',
+    images: [
+      {
+        url: 'https://www.ukrcraft.com.ua/og.png',
+        alt: '.G',
+      },
+    ],
   },
 };
 
