@@ -18,7 +18,7 @@ const displayFont = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.ukrcraft.com.ua'),
-  title: '.G — craft dry gin',
+  title: 'craft dry gin',
   description:
     '.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
   openGraph: {
