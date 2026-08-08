@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Image from 'next/image';
 import { orderSchema } from '@/lib/orderSchema';
 
@@ -10,6 +10,9 @@ const OLD_PRICE = 450;
 type FieldErrors = Partial<
   Record<'name' | 'surname' | 'phone' | 'city' | 'branch' | 'comment', string>
 >;
+
+type NpCity = { ref: string; name: string; area: string };
+type NpWarehouse = { ref: string; name: string };
 
 function Field({
   name,
@@ -86,8 +89,188 @@ function TextareaField({
   );
 }
 
+function CityField({
+  value,
+  onChange,
+  error,
+}: {
+  value: NpCity | null;
+  onChange: (city: NpCity | null) => void;
+  error?: string;
+}) {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<NpCity[]>([]);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open || query.trim().length < 2) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `/api/nova-poshta?type=cities&query=${encodeURIComponent(query.trim())}`,
+          { signal: controller.signal },
+        );
+        const data = await res.json();
+        setResults(data.cities ?? []);
+      } catch {
+        // ignore aborted/failed requests
+      } finally {
+        setLoading(false);
+      }
+    }, 300);
+
+    return () => {
+      clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [query, open]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={containerRef} className='relative'>
+      <label
+        htmlFor='city'
+        className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'
+      >
+        Місто
+      </label>
+      <input
+        id='city'
+        type='text'
+        autoComplete='off'
+        placeholder='Почніть вводити назву міста'
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setOpen(true);
+          if (value) onChange(null);
+        }}
+        onFocus={() => setOpen(true)}
+        className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-[var(--accent)] ${
+          error ? 'border-red-400' : 'border-black/5'
+        }`}
+      />
+      {error && <p className='mt-1.5 text-xs text-red-600'>{error}</p>}
+
+      {open && query.trim().length >= 2 && (
+        <div className='absolute z-10 mt-1 max-h-64 w-full overflow-y-auto border border-black/10 bg-white shadow-lg'>
+          {loading && (
+            <p className='px-4 py-3 text-sm text-zinc-500'>Пошук…</p>
+          )}
+          {!loading && results.length === 0 && (
+            <p className='px-4 py-3 text-sm text-zinc-500'>Нічого не знайдено</p>
+          )}
+          {!loading &&
+            results.map((city) => (
+              <button
+                key={city.ref}
+                type='button'
+                onClick={() => {
+                  onChange(city);
+                  setQuery(city.name);
+                  setOpen(false);
+                }}
+                className='block w-full px-4 py-2.5 text-left text-sm hover:bg-black/5'
+              >
+                {city.name}{' '}
+                <span className='text-zinc-500'>({city.area})</span>
+              </button>
+            ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BranchField({
+  cityRef,
+  value,
+  onChange,
+  error,
+}: {
+  cityRef: string | null;
+  value: NpWarehouse | null;
+  onChange: (branch: NpWarehouse | null) => void;
+  error?: string;
+}) {
+  const [loadedFor, setLoadedFor] = useState<{ cityRef: string; warehouses: NpWarehouse[] } | null>(null);
+  const warehouses = loadedFor?.cityRef === cityRef ? loadedFor.warehouses : [];
+  const loading = !!cityRef && loadedFor?.cityRef !== cityRef;
+
+  useEffect(() => {
+    if (!cityRef) return;
+
+    const controller = new AbortController();
+    fetch(`/api/nova-poshta?type=warehouses&cityRef=${encodeURIComponent(cityRef)}`, {
+      signal: controller.signal,
+    })
+      .then((res) => res.json())
+      .then((data) => setLoadedFor({ cityRef, warehouses: data.warehouses ?? [] }))
+      .catch((err) => {
+        if (err?.name !== 'AbortError') setLoadedFor({ cityRef, warehouses: [] });
+      });
+
+    return () => controller.abort();
+  }, [cityRef]);
+
+  return (
+    <div>
+      <label
+        htmlFor='branch'
+        className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'
+      >
+        Відділення або поштомат Нової пошти
+      </label>
+      <select
+        id='branch'
+        disabled={!cityRef || loading}
+        value={value?.ref ?? ''}
+        onChange={(e) => {
+          const selected = warehouses.find((w) => w.ref === e.target.value) ?? null;
+          onChange(selected);
+        }}
+        className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors focus:border-[var(--accent)] disabled:opacity-50 ${
+          error ? 'border-red-400' : 'border-black/5'
+        }`}
+      >
+        <option value='' disabled>
+          {!cityRef
+            ? 'Спочатку оберіть місто'
+            : loading
+              ? 'Завантаження…'
+              : 'Оберіть відділення або поштомат'}
+        </option>
+        {warehouses.map((w) => (
+          <option key={w.ref} value={w.ref}>
+            {w.name}
+          </option>
+        ))}
+      </select>
+      {error && <p className='mt-1.5 text-xs text-red-600'>{error}</p>}
+    </div>
+  );
+}
+
 export default function OrderForm() {
   const [quantity, setQuantity] = useState(1);
+  const [city, setCity] = useState<NpCity | null>(null);
+  const [branch, setBranch] = useState<NpWarehouse | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -105,8 +288,10 @@ export default function OrderForm() {
       name: form.get('name'),
       surname: form.get('surname'),
       phone: form.get('phone'),
-      city: form.get('city'),
-      branch: form.get('branch'),
+      cityRef: city?.ref ?? '',
+      cityName: city?.name ?? '',
+      branchRef: branch?.ref ?? '',
+      branchName: branch?.name ?? '',
       quantity,
       comment: form.get('comment'),
     });
@@ -117,8 +302,8 @@ export default function OrderForm() {
         name: errors.name?.[0],
         surname: errors.surname?.[0],
         phone: errors.phone?.[0],
-        city: errors.city?.[0],
-        branch: errors.branch?.[0],
+        city: errors.cityRef?.[0] ?? errors.cityName?.[0],
+        branch: errors.branchRef?.[0] ?? errors.branchName?.[0],
         comment: errors.comment?.[0],
       });
       return;
@@ -229,10 +414,12 @@ export default function OrderForm() {
             placeholder='Введіть ваше прізвище'
             error={fieldErrors.surname}
           />
-          <Field
-            name='city'
-            label='Місто'
-            placeholder='Введіть місто'
+          <CityField
+            value={city}
+            onChange={(nextCity) => {
+              setCity(nextCity);
+              setBranch(null);
+            }}
             error={fieldErrors.city}
           />
           <Field
@@ -245,10 +432,10 @@ export default function OrderForm() {
         </div>
 
         <div className='grid gap-6 sm:grid-cols-2 sm:items-start'>
-          <Field
-            name='branch'
-            label='Відділення або поштомат Нової пошти'
-            placeholder='Номер відділення або поштомату'
+          <BranchField
+            cityRef={city?.ref ?? null}
+            value={branch}
+            onChange={setBranch}
             error={fieldErrors.branch}
           />
 
