@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Image from 'next/image';
-import { orderSchema } from '@/lib/orderSchema';
+import { orderSchema, orderFieldSchema } from '@/lib/orderSchema';
 
 const PRICE = 400;
 const OLD_PRICE = 450;
@@ -20,12 +20,14 @@ function Field({
   error,
   type = 'text',
   placeholder,
+  onValueChange,
 }: {
   name: string;
   label: string;
   error?: string;
   type?: string;
   placeholder?: string;
+  onValueChange?: (value: string) => void;
 }) {
   return (
     <div>
@@ -40,6 +42,7 @@ function Field({
         name={name}
         type={type}
         placeholder={placeholder}
+        onChange={(e) => onValueChange?.(e.target.value)}
         className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-[var(--accent)] ${
           error ? 'border-red-400' : 'border-black/5'
         }`}
@@ -55,12 +58,14 @@ function TextareaField({
   error,
   placeholder,
   optional = false,
+  onValueChange,
 }: {
   name: string;
   label: string;
   error?: string;
   placeholder?: string;
   optional?: boolean;
+  onValueChange?: (value: string) => void;
 }) {
   return (
     <div>
@@ -80,6 +85,7 @@ function TextareaField({
         name={name}
         rows={4}
         placeholder={placeholder}
+        onChange={(e) => onValueChange?.(e.target.value)}
         className={`w-full resize-none border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-[var(--accent)] ${
           error ? 'border-red-400' : 'border-black/5'
         }`}
@@ -134,7 +140,10 @@ function CityField({
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     }
@@ -148,7 +157,7 @@ function CityField({
         htmlFor='city'
         className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'
       >
-        Місто
+        Населений пункт
       </label>
       <input
         id='city'
@@ -170,11 +179,11 @@ function CityField({
 
       {open && query.trim().length >= 2 && (
         <div className='absolute z-10 mt-1 max-h-64 w-full overflow-y-auto border border-black/10 bg-white shadow-lg'>
-          {loading && (
-            <p className='px-4 py-3 text-sm text-zinc-500'>Пошук…</p>
-          )}
+          {loading && <p className='px-4 py-3 text-sm text-zinc-500'>Пошук…</p>}
           {!loading && results.length === 0 && (
-            <p className='px-4 py-3 text-sm text-zinc-500'>Нічого не знайдено</p>
+            <p className='px-4 py-3 text-sm text-zinc-500'>
+              Нічого не знайдено
+            </p>
           )}
           {!loading &&
             results.map((city) => (
@@ -188,8 +197,7 @@ function CityField({
                 }}
                 className='block w-full px-4 py-2.5 text-left text-sm hover:bg-black/5'
               >
-                {city.name}{' '}
-                <span className='text-zinc-500'>({city.area})</span>
+                {city.name} <span className='text-zinc-500'>({city.area})</span>
               </button>
             ))}
         </div>
@@ -209,7 +217,10 @@ function BranchField({
   onChange: (branch: NpWarehouse | null) => void;
   error?: string;
 }) {
-  const [loadedFor, setLoadedFor] = useState<{ cityRef: string; warehouses: NpWarehouse[] } | null>(null);
+  const [loadedFor, setLoadedFor] = useState<{
+    cityRef: string;
+    warehouses: NpWarehouse[];
+  } | null>(null);
   const warehouses = loadedFor?.cityRef === cityRef ? loadedFor.warehouses : [];
   const loading = !!cityRef && loadedFor?.cityRef !== cityRef;
 
@@ -217,13 +228,19 @@ function BranchField({
     if (!cityRef) return;
 
     const controller = new AbortController();
-    fetch(`/api/nova-poshta?type=warehouses&cityRef=${encodeURIComponent(cityRef)}`, {
-      signal: controller.signal,
-    })
+    fetch(
+      `/api/nova-poshta?type=warehouses&cityRef=${encodeURIComponent(cityRef)}`,
+      {
+        signal: controller.signal,
+      },
+    )
       .then((res) => res.json())
-      .then((data) => setLoadedFor({ cityRef, warehouses: data.warehouses ?? [] }))
+      .then((data) =>
+        setLoadedFor({ cityRef, warehouses: data.warehouses ?? [] }),
+      )
       .catch((err) => {
-        if (err?.name !== 'AbortError') setLoadedFor({ cityRef, warehouses: [] });
+        if (err?.name !== 'AbortError')
+          setLoadedFor({ cityRef, warehouses: [] });
       });
 
     return () => controller.abort();
@@ -242,7 +259,8 @@ function BranchField({
         disabled={!cityRef || loading}
         value={value?.ref ?? ''}
         onChange={(e) => {
-          const selected = warehouses.find((w) => w.ref === e.target.value) ?? null;
+          const selected =
+            warehouses.find((w) => w.ref === e.target.value) ?? null;
           onChange(selected);
         }}
         className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors focus:border-[var(--accent)] disabled:opacity-50 ${
@@ -251,7 +269,7 @@ function BranchField({
       >
         <option value='' disabled>
           {!cityRef
-            ? 'Спочатку оберіть місто'
+            ? 'Спочатку оберіть населений пункт'
             : loading
               ? 'Завантаження…'
               : 'Оберіть відділення або поштомат'}
@@ -277,6 +295,24 @@ export default function OrderForm() {
   const [submitting, setSubmitting] = useState(false);
 
   const total = PRICE * quantity;
+
+  function clearFieldErrorIfValid(field: keyof FieldErrors, value: string) {
+    const schema =
+      field === 'city'
+        ? orderFieldSchema.cityName
+        : field === 'branch'
+          ? orderFieldSchema.branchName
+          : orderFieldSchema[field];
+    if (!schema) return;
+    if (schema.safeParse(value).success) {
+      setFieldErrors((prev) => {
+        if (!prev[field]) return prev;
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -407,20 +443,32 @@ export default function OrderForm() {
             label="Ім'я"
             placeholder='Введіть ваше ім’я'
             error={fieldErrors.name}
+            onValueChange={(value) => clearFieldErrorIfValid('name', value)}
           />
           <Field
             name='surname'
             label='Прізвище'
             placeholder='Введіть ваше прізвище'
             error={fieldErrors.surname}
+            onValueChange={(value) => clearFieldErrorIfValid('surname', value)}
           />
           <CityField
             value={city}
             onChange={(nextCity) => {
               setCity(nextCity);
               setBranch(null);
+              clearFieldErrorIfValid('city', nextCity?.name ?? '');
             }}
             error={fieldErrors.city}
+          />
+          <BranchField
+            cityRef={city?.ref ?? null}
+            value={branch}
+            onChange={(nextBranch) => {
+              setBranch(nextBranch);
+              clearFieldErrorIfValid('branch', nextBranch?.name ?? '');
+            }}
+            error={fieldErrors.branch}
           />
           <Field
             name='phone'
@@ -428,17 +476,11 @@ export default function OrderForm() {
             type='tel'
             placeholder='+380 XX XXX XX XX'
             error={fieldErrors.phone}
+            onValueChange={(value) => clearFieldErrorIfValid('phone', value)}
           />
         </div>
 
-        <div className='grid gap-6 sm:grid-cols-2 sm:items-start'>
-          <BranchField
-            cityRef={city?.ref ?? null}
-            value={branch}
-            onChange={setBranch}
-            error={fieldErrors.branch}
-          />
-
+        <div>
           <div>
             <span className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'>
               Кількість пляшок
@@ -483,6 +525,7 @@ export default function OrderForm() {
           placeholder='Ваш коментар'
           optional
           error={fieldErrors.comment}
+          onValueChange={(value) => clearFieldErrorIfValid('comment', value)}
         />
 
         <p className='text-center text-xs text-zinc-600'>

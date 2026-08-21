@@ -15,4 +15,6 @@ export const orderSchema = z.object({
   comment: z.string().trim().optional().default(""),
 });
 
+export const orderFieldSchema = orderSchema.shape;
+
 export type OrderInput = z.infer<typeof orderSchema>;
