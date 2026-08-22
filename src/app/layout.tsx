@@ -17,19 +17,26 @@ const displayFont = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.ukrcraft.com.ua'),
-  title: 'craft dry gin',
+  metadataBase: new URL('https://ukrcraft.com.ua'),
+  title: '.G Джиневер — український крафтовий сухий джин',
   description:
-    '.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
+    'Український крафтовий сухий джин .G з власного зернового дистиляту, ялівцю та коріандру. Замовляйте 0,5 л з доставкою по Україні.',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: '.G — craft dry gin',
+    title: '.G Джиневер — український крафтовий сухий джин',
     description:
-      'Зерно • Ялівець • Коріандр\n.G — крафтовий сухий джин з зерна. Замовляйте пляшку 0.5л з доставкою по Україні.',
+      'Український крафтовий сухий джин .G з власного зернового дистиляту, ялівцю та коріандру. Замовляйте 0,5 л з доставкою по Україні.',
+    url: '/',
+    siteName: 'UkrCraft',
     locale: 'uk_UA',
     type: 'website',
     images: [
       {
-        url: 'https://www.ukrcraft.com.ua/og.png',
+        url: '/og.png',
+        width: 1200,
+        height: 630,
         alt: '.G',
       },
     ],

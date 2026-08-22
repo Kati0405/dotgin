@@ -10,9 +10,9 @@ import WaveDivider from "@/components/WaveDivider";
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Джин .G Genebra",
+  name: "Джиневер .G",
   description:
-    "Крафтовий сухий джин з власного пшеничного дистиляту потрійної дистиляції. Хвойні ноти ялівцю та свіжий цитрусовий післясмак.",
+    "Крафтовий джиневер з власного пшеничного дистиляту потрійної дистиляції. Хвойні ноти ялівцю та свіжий цитрусовий післясмак.",
   image: "https://www.ukrcraft.com.ua/bottle_cutout.png",
   brand: {
     "@type": "Brand",
