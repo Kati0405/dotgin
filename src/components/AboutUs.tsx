@@ -2,7 +2,7 @@ const facts = [
   {
     title: 'Зроблено в Україні',
     description:
-      'Ми працюємо в Бердичеві та створюємо локальний продукт із власним характером.',
+      'Ми працюємо в Бердичеві та створюємо локальний продукт із власною історією.',
   },
   {
     title: 'Малі партії',
@@ -47,7 +47,7 @@ export default function AboutUs() {
       </div>
 
       <p className='mt-10 border-t border-black/5 pt-6 text-center text-sm font-medium tracking-tight text-zinc-700'>
-        <strong>Джин .G</strong> — смак, що починається із зерна.
+        <strong>Джиневер .G</strong> — смак, що починається із зерна.
       </p>
     </section>
   );

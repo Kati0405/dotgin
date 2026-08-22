@@ -2,7 +2,7 @@ import Image from "next/image";
 import logo from "../../public/logo_ukrcraft_only_cropped.png";
 
 const navLinks = [
-  { label: "Про джин", href: "#about" },
+  { label: "Джиневер", href: "#about" },
   { label: "Коктейлі", href: "#cocktails" },
   { label: "Про нас", href: "#about-us" },
 ];
