@@ -6,7 +6,7 @@ export default function ProductHero() {
       <div className='relative aspect-[4/5] w-full sm:aspect-[16/9]'>
         <Image
           src='/hero_img_flat.png'
-          alt='Джин .G Genebra — українська крафтова джиневра'
+          alt='Джин .G — українська крафтова джиневер'
           fill
           priority
           className='object-cover object-[65%_center] sm:object-center'

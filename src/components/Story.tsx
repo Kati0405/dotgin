@@ -1,9 +1,18 @@
 import Image from 'next/image';
 
 const highlights = [
-  { label: 'Власний пшеничний дистилят', image: '/images/hightlights/wheat.png' },
-  { label: 'Потрійна дистиляція', image: '/images/hightlights/our_distillery.png' },
-  { label: 'Натуральні ботанікали', image: '/images/hightlights/natural_ingrigients.png' },
+  {
+    label: 'Власний пшеничний дистилят',
+    image: '/images/hightlights/wheat.png',
+  },
+  {
+    label: 'Потрійна дистиляція',
+    image: '/images/hightlights/our_distillery.png',
+  },
+  {
+    label: 'Натуральні ботанікали',
+    image: '/images/hightlights/natural_ingrigients.png',
+  },
   { label: 'Без зайвого', image: '/images/hightlights/pure.png' },
 ];
 
@@ -18,9 +27,10 @@ export default function Story() {
           Від зерна до пляшки
         </h2>
         <p className='mx-auto mt-3 max-w-md text-zinc-600 lg:max-w-2xl lg:text-lg'>
-          <strong>.G</strong> ми самі виробляємо пшеничний дистилят і проводимо потрійну
-          дистиляцію. Кожну партію створюємо вручну, невеликими обсягами, щоб
-          контролювати чистоту, аромат і смак на кожному етапі.
+          Для джину <strong>.G</strong> ми самі виробляємо пшеничний дистилят і
+          проводимо потрійну дистиляцію. Кожну партію створюємо вручну,
+          невеликими обсягами, щоб контролювати чистоту, аромат і смак на
+          кожному етапі.
         </p>
       </div>
 
