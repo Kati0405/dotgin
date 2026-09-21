@@ -221,8 +221,17 @@ function BranchField({
     cityRef: string;
     warehouses: NpWarehouse[];
   } | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [query, setQuery] = useState(value?.name ?? '');
+  const [open, setOpen] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
+  const [retrying, setRetrying] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const warehouses = loadedFor?.cityRef === cityRef ? loadedFor.warehouses : [];
-  const loading = !!cityRef && loadedFor?.cityRef !== cityRef;
+  const hasError = !!cityRef && loadError === cityRef;
+  const loading =
+    !!cityRef && loadedFor?.cityRef !== cityRef && !hasError && !retrying;
 
   useEffect(() => {
     if (!cityRef) return;
@@ -234,53 +243,133 @@ function BranchField({
         signal: controller.signal,
       },
     )
-      .then((res) => res.json())
-      .then((data) =>
-        setLoadedFor({ cityRef, warehouses: data.warehouses ?? [] }),
-      )
+      .then((res) => {
+        if (!res.ok) throw new Error('request failed');
+        return res.json();
+      })
+      .then((data) => {
+        setLoadedFor({ cityRef, warehouses: data.warehouses ?? [] });
+        setLoadError(null);
+      })
       .catch((err) => {
-        if (err?.name !== 'AbortError')
-          setLoadedFor({ cityRef, warehouses: [] });
-      });
+        if (err?.name !== 'AbortError') setLoadError(cityRef);
+      })
+      .finally(() => setRetrying(false));
 
     return () => controller.abort();
-  }, [cityRef]);
+  }, [cityRef, retryToken]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const filtered = normalizedQuery
+    ? warehouses.filter((w) => w.name.toLowerCase().includes(normalizedQuery))
+    : warehouses;
+
+  const placeholder = !cityRef
+    ? 'Спочатку оберіть населений пункт'
+    : loading
+      ? 'Завантаження…'
+      : hasError
+        ? 'Не вдалося завантажити відділення'
+        : 'Почніть вводити номер або адресу відділення';
 
   return (
-    <div>
+    <div ref={containerRef} className='relative'>
       <label
         htmlFor='branch'
         className='mb-2 block text-xs font-medium tracking-wide text-zinc-600 uppercase'
       >
         Відділення або поштомат Нової пошти
       </label>
-      <select
+      <input
         id='branch'
+        type='text'
+        autoComplete='off'
         disabled={!cityRef || loading}
-        value={value?.ref ?? ''}
+        placeholder={placeholder}
+        value={query}
         onChange={(e) => {
-          const selected =
-            warehouses.find((w) => w.ref === e.target.value) ?? null;
-          onChange(selected);
+          setQuery(e.target.value);
+          setOpen(true);
+          if (value) onChange(null);
         }}
-        className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors focus:border-[var(--accent)] disabled:opacity-50 ${
+        onFocus={() => setOpen(true)}
+        className={`w-full border bg-white px-4 py-3.5 text-sm text-[var(--foreground)] shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-[var(--accent)] disabled:opacity-50 ${
           error ? 'border-red-400' : 'border-black/5'
         }`}
-      >
-        <option value='' disabled>
-          {!cityRef
-            ? 'Спочатку оберіть населений пункт'
-            : loading
-              ? 'Завантаження…'
-              : 'Оберіть відділення або поштомат'}
-        </option>
-        {warehouses.map((w) => (
-          <option key={w.ref} value={w.ref}>
-            {w.name}
-          </option>
-        ))}
-      </select>
+      />
       {error && <p className='mt-1.5 text-xs text-red-600'>{error}</p>}
+
+      {open && !!cityRef && !loading && (
+        <div className='absolute z-10 mt-1 max-h-64 w-full overflow-y-auto border border-black/10 bg-white shadow-lg'>
+          {hasError && (
+            <div className='flex items-center justify-between gap-2 px-4 py-3 text-sm text-red-600'>
+              <span>
+                {retrying
+                  ? 'Спроба ще раз…'
+                  : 'Не вдалося завантажити список відділень.'}
+              </span>
+              <button
+                type='button'
+                disabled={retrying}
+                onClick={() => {
+                  setRetrying(true);
+                  setRetryToken((t) => t + 1);
+                }}
+                aria-label='Спробувати ще раз'
+                title='Спробувати ще раз'
+                className='shrink-0 rounded p-1 hover:bg-red-50 disabled:opacity-50'
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  className={`h-3.5 w-3.5 ${retrying ? 'animate-spin' : ''}`}
+                >
+                  <path d='M21 12a9 9 0 1 1-2.64-6.36' />
+                  <path d='M21 4v5h-5' />
+                </svg>
+              </button>
+            </div>
+          )}
+          {!hasError && filtered.length === 0 && (
+            <p className='px-4 py-3 text-sm text-zinc-500'>
+              Нічого не знайдено
+            </p>
+          )}
+          {!hasError &&
+            filtered.map((w) => (
+              <button
+                key={w.ref}
+                type='button'
+                onClick={() => {
+                  onChange(w);
+                  setQuery(w.name);
+                  setOpen(false);
+                }}
+                className='block w-full px-4 py-2.5 text-left text-sm hover:bg-black/5'
+              >
+                {w.name}
+              </button>
+            ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -462,6 +551,7 @@ export default function OrderForm() {
             error={fieldErrors.city}
           />
           <BranchField
+            key={city?.ref ?? 'no-city'}
             cityRef={city?.ref ?? null}
             value={branch}
             onChange={(nextBranch) => {
